@@ -24,7 +24,7 @@ node {
 
                 sh '''
                 rsync -rav --delete ./ \
-                ubuntu@$PROD_HOST:/home/adam/ansible/prod.kelasdevops.xyz/ \
+                adam@$PROD_HOST:/home/adam/ansible/prod.kelasdevops.xyz/ \
                 --exclude=.env \
                 --exclude=storage \
                 --exclude=.git
