@@ -1,25 +1,21 @@
 node {
     checkout scm
 
-    stage("Build"){
+    stage("Build") {
         docker.image('composer:2').inside('-u root') {
             sh 'composer install'
         }
     }
 
-    stage("Test"){
+    stage("Test") {
         docker.image('ubuntu').inside('-u root') {
             sh 'echo "Ini adalah test"'
         }
     }
 
-    stage('Deploy') {
+    stage("Deploy") {
         sshagent(['ssh-prod']) {
-            sh '''
-            apt update
-            apt install -y ansible
-            ansible-playbook -i /home/adam/ansible/dev.kelasdevops.xyz/hosts deploy.yml
-            '''
+            sh 'ansible-playbook -i hosts deploy.yml'
         }
     }
 }
