@@ -1,5 +1,18 @@
----
 - hosts: dev
   tasks:
-    - name: Test deploy
-      command: echo "Deploy berhasil"
+
+    - name: Clone repository Laravel
+      git:
+        repo: https://github.com/Addam884/devops-laravel
+        dest: /home/adam/devops-laravel
+        version: main
+
+    - name: Install dependency Laravel
+      command: composer install
+      args:
+        chdir: /home/adam/devops-laravel
+
+    - name: Run Laravel
+      command: php artisan serve --host=0.0.0.0 --port=8000
+      args:
+        chdir: /home/adam/devops-laravel
