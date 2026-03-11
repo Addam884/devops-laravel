@@ -13,9 +13,13 @@ node {
         }
     }
     stage('Deploy') {
-        sshagent(['ssh-prod']) {
-            sh 'ansible-playbook -i /home/adam/ansible/dev.kelasdevops.xyz/hosts deploy.yml'
+    steps {
+        sshagent(['adam']) {
+            sh '''
+            apt update
+            apt install -y ansible
+            ansible-playbook -i /home/adam/ansible/dev.kelasdevops.xyz/hosts deploy.yml
+            '''
         }
     }
-
 }
