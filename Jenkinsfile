@@ -15,26 +15,22 @@ node {
     }
 
     stage("Deploy"){
-    docker.image('alpine').inside('-u root') {
+        docker.image('agung3wi/alpine-rsync:1.1').inside('-u root') {
 
-        sh '''
-        apk add --no-cache rsync openssh
-        '''
+            sshagent(credentials: ['ssh-prod']) {
 
-        sshagent(credentials: ['ssh-prod']) {
+                sh 'mkdir -p ~/.ssh'
+                sh 'ssh-keyscan -H "$PROD_HOST" >> ~/.ssh/known_hosts'
 
-            sh 'mkdir -p ~/.ssh'
-            sh 'ssh-keyscan -H "$PROD_HOST" >> ~/.ssh/known_hosts'
-
-            sh '''
-            rsync -rav --delete ./ \
-            ubuntu@$PROD_HOST:/home/adam/ansible/prod.kelasdevops.xyz/ \
-            --exclude=.env \
-            --exclude=storage \
-            --exclude=.git
-            '''
+                sh '''
+                rsync -rav --delete ./ \
+                ubuntu@$PROD_HOST:/home/adam/ansible/prod.kelasdevops.xyz/ \
+                --exclude=.env \
+                --exclude=storage \
+                --exclude=.git
+                '''
+            }
         }
     }
-}
 
 }
