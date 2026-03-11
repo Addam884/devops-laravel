@@ -12,4 +12,10 @@ node {
             sh 'echo "Ini adalah test"'
         }
     }
+    stage('Deploy') {
+        sshagent(['ssh-prod']) {
+            sh 'ansible-playbook -i /home/adam/ansible/dev.kelasdevops.xyz/hosts deploy.yml'
+        }
+    }
+
 }
