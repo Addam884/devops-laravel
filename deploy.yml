@@ -1,0 +1,5 @@
+---
+- hosts: dev
+  tasks:
+    - name: Test deploy
+      command: echo "Deploy berhasil"
