@@ -12,8 +12,8 @@ node {
             sh 'echo "Ini adalah test"'
         }
     }
+
     stage('Deploy') {
-    steps {
         sshagent(['adam']) {
             sh '''
             apt update
