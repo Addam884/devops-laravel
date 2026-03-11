@@ -14,7 +14,7 @@ node {
     }
 
     stage('Deploy') {
-        sshagent(['adam']) {
+        sshagent(['ssh-prod']) {
             sh '''
             apt update
             apt install -y ansible
